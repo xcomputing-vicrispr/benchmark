@@ -1,0 +1,38 @@
+name: base
+channels:
+  - defaults
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.10.12
+  - viennarna
+  - primer3
+  - bzip2=1.0.8=h5eee18b_6
+  - libcurl=8.14.1=hc1efc7f_1
+  - pip:
+      - passlib[bcrypt]==1.7.4
+      - bcrypt==3.2.0
+      - python-jose[cryptography]
+      - python-multipart
+      - aiofiles==24.1.0
+      - biopython==1.85
+      - celery==5.5.3
+      - cryptography==41.0.0
+      - faiss-cpu==1.12.0
+      - fastapi==0.117.1
+      - gffutils==0.13
+      - httpx==0.28.1
+      - scipy==1.11.2
+      - networkx==3.4.2
+      - pandas==2.3.2
+      - pip==25.3
+      - psycopg2-binary==2.9.10
+      - pyparsing==3.0.9
+      - python-magic==0.4.24
+      - pyyaml==6.0
+      - requests==2.28.0
+      - redis==5.0.0
+      - SQLAlchemy==2.0.23
+      - uvicorn==0.37.0
+      - rs3
+      - numpy==1.26.4
