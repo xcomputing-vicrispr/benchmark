@@ -1,3 +1,9 @@
+'''
+This .py just provide functions and variables for all script of ViCRISPR's benchmark.
+'''
+
+
+
 from pydantic import BaseModel
 import subprocess
 import sys
@@ -425,6 +431,8 @@ def calMicroScore(seq1: str, seq2: str) -> float:
                         num_out_frame_score = num_out_frame_score + 1
                     total_posiblity = total_posiblity + 1
                     print(i, k, delta,micro(tmp), tmp, mh_score)
+    if (total_posiblity == 0):
+        return 0
     return num_out_frame_score / total_posiblity
 def gop(a: str, b:str) -> str:
     return f"{a}:{b}"
@@ -875,7 +883,6 @@ def CoordinateComputing(idd, bo_string):
                     lindel = template[id + GAP - 3 - 30: id + GAP + pam_size + 30]
 
                 except Exception as e:
-                    print(e)
                     microScore = -999999
                     mlseq = mlseqDefault
                     lindel = lindelDefault

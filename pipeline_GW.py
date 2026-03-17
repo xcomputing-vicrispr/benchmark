@@ -1,3 +1,32 @@
+"""
+This script found all sgRNA candidates in E. coli (strain K-12/MG1655),
+pipeline and workflow are described in our paper.
+
+Notes:
+    - Make sure all prerequisite files are placed in the ./data directory.
+    - The required files include:
+        + ecolik12.fa
+        + ecolik12.2bit
+        + ecolik12.gff3
+        + ecolik12.db
+        + ecolik12.exons.sorted.gff3
+        + ecolik12.genes.sorted.gff3
+
+Run:
+    - python3 pipeline_GW.py
+
+Input:
+    - Preprocessed files listed above.
+
+Output:
+    - gw_ecolik12.csv (All sgRNAs are included. Detailed information on the five mentioned regions can be found in the ./gw_data directory on this repo,
+     which was extracted from this output)
+"""
+
+
+
+
+
 import numpy as np
 from pydantic import BaseModel
 from Bio.Seq import Seq
@@ -201,7 +230,7 @@ def buildFaissIndex(genome_name: str, PAM: str, sgRNA_length: int):
     sgRNA_len = sgRNA_length
     dim = sgRNA_len * 4
 
-    # crated basic index + bọc IndexIDMap
+    # crated basic index + IndexIDMap
     dim_bits = sgRNA_length * 4  # 2 bit/nu (A,C,G,T)
     index_flat = faiss.IndexBinaryFlat(dim_bits)
     index = faiss.IndexBinaryIDMap(index_flat)
@@ -250,7 +279,7 @@ def buildFaissIndex(genome_name: str, PAM: str, sgRNA_length: int):
 
     #Start merge metadata
     all_sgRNAs_merged = load_all_metadata_from_pkl(ori_pkl_path)
-    print(f"Merge {len(all_sgRNAs_merged)} bản")
+    print(f"Merge {len(all_sgRNAs_merged)}")
 
     #New pkl
     with open(pkl_path, 'wb') as f:
@@ -287,7 +316,7 @@ def queryFaissIndex(genome_name: str, PAM: str, sgrna_length: int, seed_length: 
 
             sgRNAs_for_chrom = find_sgRNAs_with_PAM(seq, chrom, PAM, seed_len)
             all_sgRNAs.extend(sgRNAs_for_chrom)
-    print("Tat ca la co:", len(all_sgRNAs))
+    print("All:", len(all_sgRNAs))
    # sgRNAs_for_chrom = find_sgRNAs_with_PAM_v2(seq, chrom, PAM, seed_len)
     seed_strand_to_indices = defaultdict(list)
 
@@ -335,7 +364,8 @@ def queryFaissIndex(genome_name: str, PAM: str, sgrna_length: int, seed_length: 
             print(f"Progress embedding: {i}/{total} ({i/total:.2%})", end='\r')
     query_vectors = np.vstack(encoded_queries).astype(np.uint8)
 
-    print("encoded xong")
+    #We take approximately 10 mins to do this, our cau hinh cua chung toi duoc noi trong paper 
+    print("This phase might take your time...")
     sgRNAs_final = []
     dl = []
     vt = set()
@@ -375,7 +405,6 @@ def queryFaissIndex(genome_name: str, PAM: str, sgrna_length: int, seed_length: 
             print(f"Progress filter distance: {i}/{total} ({i/total:.2%})", end='\r')
 
     print("sgRNAs after filter:", len(sgRNAs_final))
-    output_file = os.path.join(DATA_DIR, 'testing.csv')
     print("Done")
 
     genes_data = load_filtered_genes(filtered_anno_path)

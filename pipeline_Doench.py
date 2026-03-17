@@ -1,3 +1,26 @@
+"""
+This script running accuracy evaluation experiments on the Doench et al. benchmark dataset.
+
+Notes:
+    - Make sure all prerequisite files are placed in the ./data directory.
+    - The required files include:
+        + Doench_data.csv
+
+Run:
+    - python3 pipeline_Doench.py
+
+Input:
+    - Doench_data.csv.
+
+Output:
+    - vicrispr_doench_all.csv, with our score and selection compare to Doench selection
+"""
+
+
+
+
+
+
 import sys, math
 import pandas as pd
 from sklearn.metrics import precision_score, recall_score, f1_score, confusion_matrix

@@ -1,3 +1,18 @@
+"""
+This script running accuracy evaluation experiments on the Xu et al. benchmark dataset.
+
+Run:
+    - python3 pipeline_Xu2015.py
+
+Input:
+    - Xu2015.fa
+
+Output:
+    - vicrispr_doench_all.csv, with our score and selection compare to Xu et al. selection
+"""
+
+
+
 import re
 
 from experiment_functions_500 import fold_rna, get_ml_score
